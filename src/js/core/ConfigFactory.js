@@ -229,9 +229,10 @@ var buildGoogleFeedURL = function(key, api_version) {
 
 async function jsonFromGoogleURL(google_url, options) {
 
-    if (!options['sheets_proxy']) {
-        throw new TLError("Proxy option must be set to read data from Google")
-    }
+    // TODO: Check if a proxy is really necessary
+    // if (!options['sheets_proxy']) {
+    //     throw new TLError("Proxy option must be set to read data from Google")
+    // }
 
     var timeline_json = await readGoogleAsCSV(google_url, options['sheets_proxy']);
 
