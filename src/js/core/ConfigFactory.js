@@ -55,12 +55,16 @@ function interpretBackground(bkgd) {
 
 function extractEventFromCSVObject(orig_row) {
 
+    let default_columns = ['Media Caption', 'Media Credit', 'Media', 'Media Thumbnail',
+	                   'Headline', 'Text', 'Display Date', 'Group', 'Tag', 'Background',
+	                   'Type', 'Start Date', 'End Date']
+
     let row = {}
     Object.keys(orig_row).forEach(k => {
         row[k] = trim(orig_row[k]) // get rid of white-space and reduce all-blank cells to empty strings
     })
 
-    var d = {
+    let d = {
         media: {
             caption: row['Media Caption'] || '',
             credit: row['Media Credit'] || '',
@@ -76,6 +80,12 @@ function extractEventFromCSVObject(orig_row) {
         background: interpretBackground(row['Background']), // only in v3 but no problem
         type: row['Type'] || ''
     }
+
+    Object.keys(orig_row).forEach(k => {
+        if (default_columns.indexOf(k) < 0) {
+            d[k] = trim(orig_row[k]) // get rid of white-space and reduce all-blank cells to empty strings
+        }
+    })
 
     if (Object.keys(row).includes('Start Date') || Object.keys(row).includes('End Date')) {
         // V1 date handling
